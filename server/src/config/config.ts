@@ -2,22 +2,18 @@ import dotenv from 'dotenv'
 
 dotenv.config();
 
-const MYSQL_HOST = process.env.MYSQL_HOST || 'localhost'
-const MYSQL_DATABASE = process.env.MYSQL_DATABASE || 'root'
-const MYSQL_USER = process.env.MYSQL_USER || 'admin'
-const MYSQL_PASSWORD = process.env.MYSQL_PASSWORD || 'admin'
 
 const SERVER_PORT = process.env.SERVER_PORT || '8000'
 const SERVER_HOSTNAME = process.env.SERVER_HOSTNAME || 'phimmoi'
 
+const MONGO_USERNAME = process.env.MONGO_USERNAME || ''
+const MONGO_PASSWORD = process.env.MONGO_PASSWORD || ''
+const MONGO_URL = `mongodb+srv://${MONGO_USERNAME}:${MONGO_PASSWORD}@cluster0.2rsmb.mongodb.net`
 
-const MYSQL = {
-    host: MYSQL_HOST,
-    database: MYSQL_DATABASE,
-    user: MYSQL_USER,
-    password: MYSQL_PASSWORD
+
+const MONGO = {
+    url: MONGO_URL
 }
-
 
 const SERVER = {
     hostname: SERVER_HOSTNAME,
@@ -26,7 +22,7 @@ const SERVER = {
 
 const config = {
     server: SERVER,
-    mysql: MYSQL
+    mongo: MONGO,
 }
 
 export default config
