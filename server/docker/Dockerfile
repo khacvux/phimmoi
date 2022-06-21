@@ -1,15 +1,17 @@
-FROM node:16
-
-EXPOSE 8001
+FROM node:latest
 
 WORKDIR /app
 
-RUN npm i npm@latest -g
-
 COPY package.json package-lock.json ./
 
-RUN npm install
+RUN yarn
 
-COPY . . 
+COPY . .
 
-CMD ['node', 'dist/index.js']
+RUN yarn build
+
+USER node
+
+EXPOSE 8000
+
+CMD [ "node", "dist/index.js" ]

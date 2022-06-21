@@ -1,7 +1,8 @@
 import mongoose from "mongoose";
 
-export const ConnectDB = (mongoURL: string) => {
-    mongoose.connect(mongoURL, {
+export const ConnectDB = async(mongoURL: string) => {
+    console.log('connecting db...')
+    await mongoose.connect(mongoURL, {
         retryWrites: true,
         w: 'majority',
     })
