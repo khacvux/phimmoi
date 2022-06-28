@@ -9,7 +9,7 @@ import NormalList from '../components/NormalList'
 const HomeScreen = ({navigation}) => {
 
   return (
-    <SafeAreaView 
+    <View 
       style={tw`w-full h-full`}
     >
       <ScrollView
@@ -21,7 +21,7 @@ const HomeScreen = ({navigation}) => {
         <FeaturedList navigation={navigation} />
         <NormalList navigation={navigation} />
       </ScrollView>
-    </SafeAreaView>
+    </View>
   )
 }
 

@@ -1,0 +1,8 @@
+import { Router } from "express";
+import * as ADMIN from "../controlllers/admin";
+
+const routes = Router();
+routes.post("/login", ADMIN.login);
+routes.post("/add-movie", ADMIN.addMovie);
+
+export default routes;

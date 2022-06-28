@@ -15,17 +15,24 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const config_1 = __importDefault(require("./src/config/config"));
 const mongo_1 = require("./src/config/mongo");
+const routes_1 = __importDefault(require("./src/routes"));
+const body_parser_1 = __importDefault(require("body-parser"));
+const cors_1 = __importDefault(require("cors"));
 const app = (0, express_1.default)();
 const PORT = config_1.default.server.port;
 const MONGO_URL = config_1.default.mongo.url;
 const main = () => __awaiter(void 0, void 0, void 0, function* () {
     (0, mongo_1.ConnectDB)(MONGO_URL);
-    app.get('/', (req, res) => {
-        res.send('helleoeooofajsdadffsdfsdffsdfdhofsddfdsgfsdfsdidaoisduoasu');
-    });
+    app.use(body_parser_1.default.json());
+    app.use(body_parser_1.default.urlencoded({ extended: true, limit: '50mb' }));
     app.set('trust proxy', 1);
+    app.use((0, cors_1.default)());
+    (0, routes_1.default)(app);
+    // app.get('/', (req, res) => {
+    //   res.send('<h1>HELLO ANH EM</h1>')
+    // })
     app.listen(PORT, () => {
         console.log(`⚡️[server]: Server is running at http://localhost:${PORT}`);
     });
 });
-main().catch(error => console.log(error));
+main().catch((error) => console.log(error));

@@ -12,6 +12,8 @@ const MONGO_USERNAME = process.env.MONGO_USERNAME || '';
 const MONGO_PASSWORD = process.env.MONGO_PASSWORD || '';
 // const MONGO_URL = `mongodb+srv://${MONGO_USERNAME}:${MONGO_PASSWORD}@cluster0.2rsmb.mongodb.net`
 const MONGO_URL = process.env.MONGO_URL || '';
+const JWT_ACCESS_KEY = process.env.JWT_ACCESS_KEY;
+const JWT_REFRESH_KEY = process.env.JWT_REFRESH_KEY;
 const MONGO = {
     url: MONGO_URL
 };
@@ -19,8 +21,13 @@ const SERVER = {
     hostname: SERVER_HOSTNAME,
     port: SERVER_PORT
 };
+const JWT = {
+    accesskey: JWT_ACCESS_KEY,
+    refreshkey: JWT_REFRESH_KEY
+};
 const config = {
     server: SERVER,
     mongo: MONGO,
+    jwt: JWT,
 };
 exports.default = config;
