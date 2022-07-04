@@ -1,10 +1,11 @@
 import { Request, Response } from "express";
-import User from "../models/user/user";
-import IResponse from "../models/return";
+import User from "../models/user";
+import IResponse from "../models/response";
 import bcrypt from "bcrypt";
 import { sendRefreshToken, createToken } from "../utils/auth";
-import { LoginType } from "../models/auth/auth";
+import { LoginType } from "../models/auth";
 import * as Querystring from "node:querystring";
+
 
 const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
@@ -14,6 +15,7 @@ const login = async (req: Request, res: Response) => {
     const error: IResponse = {
       successful: false,
       message: "Email or password is incorrect",
+      data: null
     };
     if (!existingUser) return res.status(400).json(error);
     if (!existingUser.admin) return res.status(400).json(error);
@@ -23,7 +25,7 @@ const login = async (req: Request, res: Response) => {
     //IF NOT CORRECT
     if (!validPassword) return res.status(400).json(error);
 
-    // ELSE GENERATE TOKEN
+    // ELSE: GENERATE TOKEN
     const accessToken = createToken(existingUser._id);
     sendRefreshToken(res, existingUser);
     const response: LoginType = {
@@ -35,6 +37,7 @@ const login = async (req: Request, res: Response) => {
       contactNumber: existingUser.contactNumber,
       avatarUrl: existingUser.avatarUrl,
       _id: existingUser._id,
+      data: null
     };
 
     return res.status(200).json(response);
@@ -42,6 +45,7 @@ const login = async (req: Request, res: Response) => {
     const e: IResponse = {
       successful: false,
       message: `Server error ${error}`,
+      data: null
     };
     console.log(e);
     return res.status(400).json(e);
@@ -53,6 +57,7 @@ const addMovie = async (req: Request, res: Response) => {
   try {
     const dataVideoInfo = Querystring.parse(videoInfo.data);
     console.log(dataVideoInfo);
+   
 
     let value = "2001:ee0:4b47:a820:e8cb:787e:df8b:140b";
 
@@ -69,6 +74,7 @@ const addMovie = async (req: Request, res: Response) => {
     const e: IResponse = {
       successful: false,
       message: `Server error ${error}`,
+      data: null
     };
     console.log(e);
     return res.status(400).json(e);

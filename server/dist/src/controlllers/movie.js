@@ -1,0 +1,17 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.info = exports.listByCategory = exports.search = exports.update = exports.remove = exports.list = exports.add = void 0;
+const add = (req, res) => { };
+exports.add = add;
+const list = () => { };
+exports.list = list;
+const remove = () => { };
+exports.remove = remove;
+const update = () => { };
+exports.update = update;
+const search = () => { };
+exports.search = search;
+const listByCategory = () => { };
+exports.listByCategory = listByCategory;
+const info = () => { };
+exports.info = info;

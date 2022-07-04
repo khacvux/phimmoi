@@ -1,10 +1,11 @@
 import { Request, Response } from "express";
-import User, { IUserModel } from "../models/user/user";
-import IResponse from "../models/return";
+import User, { IUserModel } from "../models/user";
+import IResponse from "../models/response";
 import bcrypt from "bcrypt";
 import { sendRefreshToken, createToken } from "../utils/auth";
-import { LoginType, RegisterType } from "../models/auth/auth";
+import { LoginType, RegisterType } from "../models/auth";
 import mongoose from "mongoose";
+
 
 const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
@@ -14,6 +15,7 @@ const login = async (req: Request, res: Response) => {
     const error: IResponse = {
       successful: false,
       message: "Email or password is incorrect",
+      data: null
     };
     if (!existingUser) return res.status(400).json(error);
     if (existingUser.admin) return res.status(400).json(error);
@@ -35,12 +37,14 @@ const login = async (req: Request, res: Response) => {
       contactNumber: existingUser.contactNumber,
       avatarUrl: existingUser.avatarUrl,
       _id: existingUser._id,
+      data: null
     };
     return res.status(200).json(response);
   } catch (error) {
     const e: IResponse = {
       successful: false,
       message: `Server error ${error}`,
+      data: null
     };
     console.log(e);
     return res.status(400).json(e);
@@ -55,6 +59,7 @@ const register = async (req: Request, res: Response) => {
       const error: IResponse = {
         successful: false,
         message: `Email already exists`,
+        data: null
       };
       return res.status(400).json(error);
     }
@@ -71,12 +76,12 @@ const register = async (req: Request, res: Response) => {
       name,
       avatarUrl: "",
       contactNumber,
-      token,
     });
     await newUser.save();
     const response: IResponse = {
       successful: true,
       message: `Register Successfully`,
+      data: null
     };
 
     return res.status(200).json(response);
@@ -84,10 +89,12 @@ const register = async (req: Request, res: Response) => {
     const e: IResponse = {
       successful: false,
       message: `Server error ${error}`,
+      data: null
     };
     console.log(e);
     return res.status(400).json(e);
   }
 };
+
 
 export { login, register };

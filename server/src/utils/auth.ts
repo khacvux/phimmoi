@@ -2,7 +2,7 @@ import { sign, Secret } from "jsonwebtoken";
 import config from "../config/config";
 import { Types } from "mongoose";
 import { Response } from "express";
-import { IUserModel } from "../models/user/user";
+import { IUserModel } from "../models/user";
 
 export const createToken = (id: Types.ObjectId) => {
   return sign({ id }, config.jwt.accesskey as Secret, {

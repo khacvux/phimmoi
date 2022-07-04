@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.register = exports.login = void 0;
-const user_1 = __importDefault(require("../models/user/user"));
+const user_1 = __importDefault(require("../models/user"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const auth_1 = require("../utils/auth");
 const mongoose_1 = __importDefault(require("mongoose"));
@@ -25,6 +25,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const error = {
             successful: false,
             message: "Email or password is incorrect",
+            data: null
         };
         if (!existingUser)
             return res.status(400).json(error);
@@ -47,6 +48,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             contactNumber: existingUser.contactNumber,
             avatarUrl: existingUser.avatarUrl,
             _id: existingUser._id,
+            data: null
         };
         return res.status(200).json(response);
     }
@@ -54,6 +56,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const e = {
             successful: false,
             message: `Server error ${error}`,
+            data: null
         };
         console.log(e);
         return res.status(400).json(e);
@@ -68,6 +71,7 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             const error = {
                 successful: false,
                 message: `Email already exists`,
+                data: null
             };
             return res.status(400).json(error);
         }
@@ -83,12 +87,12 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             name,
             avatarUrl: "",
             contactNumber,
-            token,
         });
         yield newUser.save();
         const response = {
             successful: true,
             message: `Register Successfully`,
+            data: null
         };
         return res.status(200).json(response);
     }
@@ -96,6 +100,7 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const e = {
             successful: false,
             message: `Server error ${error}`,
+            data: null
         };
         console.log(e);
         return res.status(400).json(e);

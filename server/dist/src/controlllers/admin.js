@@ -36,7 +36,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.addMovie = exports.login = void 0;
-const user_1 = __importDefault(require("../models/user/user"));
+const user_1 = __importDefault(require("../models/user"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const auth_1 = require("../utils/auth");
 const Querystring = __importStar(require("node:querystring"));
@@ -48,6 +48,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const error = {
             successful: false,
             message: "Email or password is incorrect",
+            data: null
         };
         if (!existingUser)
             return res.status(400).json(error);
@@ -58,7 +59,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         //IF NOT CORRECT
         if (!validPassword)
             return res.status(400).json(error);
-        // ELSE GENERATE TOKEN
+        // ELSE: GENERATE TOKEN
         const accessToken = (0, auth_1.createToken)(existingUser._id);
         (0, auth_1.sendRefreshToken)(res, existingUser);
         const response = {
@@ -70,6 +71,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             contactNumber: existingUser.contactNumber,
             avatarUrl: existingUser.avatarUrl,
             _id: existingUser._id,
+            data: null
         };
         return res.status(200).json(response);
     }
@@ -77,6 +79,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const e = {
             successful: false,
             message: `Server error ${error}`,
+            data: null
         };
         console.log(e);
         return res.status(400).json(e);
@@ -101,6 +104,7 @@ const addMovie = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const e = {
             successful: false,
             message: `Server error ${error}`,
+            data: null
         };
         console.log(e);
         return res.status(400).json(e);
