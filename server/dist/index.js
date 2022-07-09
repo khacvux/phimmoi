@@ -19,7 +19,6 @@ const routes_1 = __importDefault(require("./src/routes"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const cors_1 = __importDefault(require("cors"));
 const morgan_1 = __importDefault(require("morgan"));
-const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
 const app = (0, express_1.default)();
 const PORT = config_1.default.server.port;
 const MONGO_URL = config_1.default.mongo.url;
@@ -45,16 +44,16 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
     app.use(body_parser_1.default.json());
     app.use(body_parser_1.default.urlencoded({ extended: true, limit: '50mb' }));
     app.use((0, cors_1.default)());
-    app.use("/docs-api", swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(undefined, {
-        swaggerOptions: {
-            url: "/swagger.json",
-        },
-    }));
+    // app.use("/docs-api", 
+    //   swaggerUi.serve,
+    //   swaggerUi.setup(undefined, {
+    //     swaggerOptions: {
+    //       url: "/swagger.json",
+    //     },
+    //   })
+    // )
     app.set('trust proxy', 1);
     (0, routes_1.default)(app);
-    // app.get('/', (req, res) => {
-    //   res.send('<h1>HELLO ANH EM</h1>')
-    // })
     app.listen(PORT, () => {
         console.log(`⚡️[server]: Server is running at http://localhost:${PORT}`);
     });

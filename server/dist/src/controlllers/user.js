@@ -78,7 +78,6 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const salt = yield bcrypt_1.default.genSalt(10);
         const hashed = yield bcrypt_1.default.hash(password, salt);
         const _id = new mongoose_1.default.Types.ObjectId();
-        const token = (0, auth_1.createToken)(_id);
         const newUser = new user_1.default({
             _id,
             admin: false,

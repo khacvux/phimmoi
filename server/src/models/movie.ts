@@ -1,30 +1,41 @@
 import { Document, Schema, model as MongooseModel } from "mongoose";
 
 export interface IMovie {
+  idMovie: any;
   name: string;
-  idCategory: string;
   description: string;
-  url: string;
+  movieUrl: string;
   posterUrl: string;
   duration: string;
   views: number;
 }
 
-export interface MovieModel extends IMovie, Document {}
+export interface infoMovieModel extends IMovie {
+  category: any,
+}
+
+export interface MovieModel extends IMovie, Document {
+  posterFilename: string;
+  movieFilename: string;
+  idCategory: string;
+
+}
 
 const movieSchema = new Schema(
   {
     name: { type: String, require: true },
     idCategory: { type: String, require: true },
     description: { type: String, require: false },
-    url: { type: String, require: true },
-    poster: { type: String, require: true },
+    movieUrl: { type: String, require: true },
+    movieFilename: { type: String, require: true },
+    posterUrl: { type: String, require: true },
+    posterFilename: { type: String, require: true },
     duration: { type: String, require: false },
-    views: { type: Number, require: false}
+    views: { type: Number, require: false },
   },
   {
     timestamps: true,
   }
 );
 
-export default MongooseModel<MovieModel>('Movie', movieSchema)
+export default MongooseModel<MovieModel>("Movie", movieSchema);

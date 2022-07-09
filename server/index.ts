@@ -37,21 +37,17 @@ const main = async () => {
   app.use(bodyParser.json())
   app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
   app.use(cors());
-  app.use("/docs-api", 
-    swaggerUi.serve,
-    swaggerUi.setup(undefined, {
-      swaggerOptions: {
-        url: "/swagger.json",
-      },
-    })
-  )
+  // app.use("/docs-api", 
+  //   swaggerUi.serve,
+  //   swaggerUi.setup(undefined, {
+  //     swaggerOptions: {
+  //       url: "/swagger.json",
+  //     },
+  //   })
+  // )
   app.set('trust proxy', 1)
 
   router(app);
-
-  // app.get('/', (req, res) => {
-  //   res.send('<h1>HELLO ANH EM</h1>')
-  // })
   app.listen(PORT, () => {
     console.log(`⚡️[server]: Server is running at http://localhost:${PORT}`);
   });

@@ -23,7 +23,7 @@ const add = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             const e = {
                 successful: false,
                 message: "Category already exists",
-                data: null
+                data: null,
             };
             return res.status(400).json(e);
         }
@@ -36,7 +36,7 @@ const add = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const response = {
             successful: true,
             message: `Added`,
-            data: null
+            data: null,
         };
         return res.status(200).json(response);
     }
@@ -44,7 +44,7 @@ const add = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const e = {
             successful: false,
             message: `Server Error.. ${error}`,
-            data: null
+            data: null,
         };
         return res.status(500).json(e);
     }
@@ -56,7 +56,7 @@ const list = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const response = {
             successful: true,
             message: `Successful`,
-            data: list
+            data: list,
         };
         return res.status(200).json(response);
     }
@@ -64,7 +64,7 @@ const list = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const e = {
             successful: false,
             message: `Server Error.. ${error}`,
-            data: null
+            data: null,
         };
         return res.status(500).json(e);
     }
@@ -78,7 +78,7 @@ const remove = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 const e = {
                     successful: false,
                     message: error,
-                    data: null
+                    data: null,
                 };
                 return res.status(400).json(e);
             }
@@ -86,7 +86,7 @@ const remove = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 const response = {
                     successful: true,
                     message: "delete success",
-                    data: null
+                    data: null,
                 };
                 return res.status(200).json(response);
             }
@@ -96,7 +96,7 @@ const remove = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const e = {
             successful: false,
             message: `Server Error.. ${error}`,
-            data: null
+            data: null,
         };
         return res.status(500).json(e);
     }

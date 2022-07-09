@@ -66,7 +66,6 @@ const register = async (req: Request, res: Response) => {
     const salt = await bcrypt.genSalt(10);
     const hashed = await bcrypt.hash(password, salt);
     const _id = new mongoose.Types.ObjectId();
-    const token = createToken(_id);
 
     const newUser: IUserModel = new User({
       _id,
