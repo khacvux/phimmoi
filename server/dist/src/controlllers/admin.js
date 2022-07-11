@@ -70,7 +70,9 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             name: existingUser.name,
             contactNumber: existingUser.contactNumber,
             avatarUrl: existingUser.avatarUrl,
+            avatarFilename: existingUser.avatarFilename,
             _id: existingUser._id,
+            library: existingUser.library,
             data: null
         };
         return res.status(200).json(response);

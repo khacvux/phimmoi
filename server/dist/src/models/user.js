@@ -7,7 +7,17 @@ const userSchema = new mongoose_1.Schema({
     password: { type: String, required: true },
     name: { type: String, required: false },
     avatarUrl: { type: String, required: false },
+    avatarFilename: { type: String, required: false },
     contactNumber: { type: String, required: false },
-    token: { type: String, required: true }
+    library: {
+        type: [
+            {
+                idMovie: String,
+                name: String,
+                posterUrl: String
+            },
+        ],
+        required: false,
+    },
 }, { timestamps: true });
-exports.default = (0, mongoose_1.model)('User', userSchema);
+exports.default = (0, mongoose_1.model)("User", userSchema);

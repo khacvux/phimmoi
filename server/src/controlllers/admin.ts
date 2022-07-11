@@ -36,7 +36,9 @@ const login = async (req: Request, res: Response) => {
       name: existingUser.name,
       contactNumber: existingUser.contactNumber,
       avatarUrl: existingUser.avatarUrl,
+      avatarFilename: existingUser.avatarFilename,
       _id: existingUser._id,
+      library: existingUser.library,
       data: null
     };
 

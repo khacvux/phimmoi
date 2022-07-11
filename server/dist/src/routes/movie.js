@@ -44,4 +44,7 @@ routes.post("/add", uploadFile_1.default.fields([
 routes.get("/category/:id", checkAuth_1.checkAuth, MOVIE.listByCategory);
 routes.delete("/delete/:id", checkAuth_1.checkAuth, MOVIE.remove);
 routes.get("/info/:id", checkAuth_1.checkAuth, MOVIE.info);
+routes.post("/update/info", checkAuth_1.checkAuth, MOVIE.updateInfo);
+routes.get("/search/:keyword", checkAuth_1.checkAuth, MOVIE.searchLikeName);
+routes.post("/update/poster", uploadFile_1.default.single("poster"), checkAuth_1.checkAuth, MOVIE.updatePoster);
 exports.default = routes;

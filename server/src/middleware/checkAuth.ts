@@ -10,7 +10,7 @@ export const checkAuth = (req: any, res: Response, next: NextFunction) => {
     verify(
       accessToken,
       config.jwt.accesskey as Secret,
-      (err: any, user: any) => {
+      async (err: any, decodedToken: any) => {
         if (err) {
           const error: IResponse = {
             message: err,
@@ -19,7 +19,7 @@ export const checkAuth = (req: any, res: Response, next: NextFunction) => {
           };
           return res.status(403).json(error);
         }
-        req.user = user;
+        req.decodedToken = decodedToken;
         return next();
       }
     );

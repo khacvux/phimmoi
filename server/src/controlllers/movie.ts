@@ -107,9 +107,89 @@ const remove = async (req: Request, res: Response) => {
   }
 };
 
-const update = () => {};
+const updateInfo = async (req: Request, res: Response) => {
+  try {
+    const { idMovie, name, description, idCategory } = req.body;
+    await Movie.findOneAndUpdate(
+      { idMovie },
+      {
+        $set: {
+          name,
+          description,
+          idCategory,
+        },
+      }
+    );
+    const response: IResponse = {
+      successful: true,
+      message: "updated",
+      data: null,
+    };
+    return res.status(200).json(response);
+  } catch (error) {
+    const e: IResponse = {
+      successful: false,
+      message: `Error: ${error}`,
+      data: null,
+    };
+    return res.status(400).json(e);
+  }
+};
 
-const search = (req: Request, res: Response) => {};
+const updatePoster = async (req: any, res: Response) => {
+  try {
+    const poster = req.file;
+    const { idMovie, filename } = req.body;
+
+    await deleteFile({
+      Bucket: config.bucket.name,
+      Key: filename,
+    })
+
+    const posterUrl = await uploadFile(poster)
+    
+    await Movie.findOneAndUpdate({idMovie}, {
+      $set: {
+        posterFilename: poster.filename,
+        posterUrl
+      }
+    })
+    const response: IResponse = {
+      successful: true,
+      message: "poster updated",
+      data: null,
+    };
+    return res.status(200).json(response);
+  } catch (error) {
+    const e: IResponse = {
+      successful: false,
+      message: `Error: ${error}`,
+      data: null,
+    };
+    return res.status(400).json(e);
+  }
+};
+
+const searchLikeName = async (req: Request, res: Response) => {
+  try {
+    const keyword = req.params.keyword;
+    const result = await Movie.find({ name: { $regex: keyword } });
+    const response: IResponse = {
+      successful: true,
+      message: `ok`,
+      data: result,
+    };
+    return res.status(200).json(response);
+  } catch (error) {
+    const e: IResponse = {
+      successful: false,
+      message: `Error: ${error}`,
+      data: null,
+    };
+    console.log(e);
+    return res.status(400).json(e);
+  }
+};
 
 const listByCategory = async (req: Request, res: Response) => {
   try {
@@ -161,7 +241,7 @@ const info = async (req: Request, res: Response) => {
     });
 
     const response: infoMovieModel = {
-      idMovie: existingMovie.idMovie,
+      idMovie: existingMovie._id,
       name: existingMovie.name,
       category: category?.name,
       description: existingMovie.description,
@@ -182,4 +262,12 @@ const info = async (req: Request, res: Response) => {
   }
 };
 
-export { add, remove, update, search, listByCategory, info };
+export {
+  add,
+  remove,
+  updateInfo,
+  updatePoster,
+  searchLikeName,
+  listByCategory,
+  info,
+};

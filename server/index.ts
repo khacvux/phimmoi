@@ -31,7 +31,7 @@ const MONGO_URL = config.mongo.url;
 // }
 
 const main = async () => {
-  ConnectDB(MONGO_URL);
+  await ConnectDB(MONGO_URL);
 
   app.use(morgan('tiny'))
   app.use(bodyParser.json())

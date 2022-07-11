@@ -22,7 +22,14 @@ routes.post(
 
 routes.get("/category/:id", checkAuth, MOVIE.listByCategory);
 routes.delete("/delete/:id", checkAuth, MOVIE.remove);
-routes.get("/info/:id", checkAuth, MOVIE.info)
-
+routes.get("/info/:id", checkAuth, MOVIE.info);
+routes.post("/update/info", checkAuth, MOVIE.updateInfo);
+routes.get("/search/:keyword", checkAuth, MOVIE.searchLikeName)
+routes.post(
+  "/update/poster",
+  upload.single("poster"),
+  checkAuth,  
+  MOVIE.updatePoster
+);
 
 export default routes;

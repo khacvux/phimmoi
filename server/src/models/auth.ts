@@ -1,10 +1,15 @@
 import IResponse from "./response";
+import { LibraryModel } from "./user";
+
+
 interface IUserTypeReturn extends IResponse {
     email: string;
     name: string | undefined;
     avatarUrl: string | undefined;
+    avatarFilename: string;
     contactNumber: string;
     _id: string;
+    library: Array<LibraryModel>;
 }
 
 export interface RegisterType extends IResponse {

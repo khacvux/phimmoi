@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.info = exports.listByCategory = exports.search = exports.update = exports.remove = exports.add = void 0;
+exports.info = exports.listByCategory = exports.searchLikeName = exports.updatePoster = exports.updateInfo = exports.remove = exports.add = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const s3Client_1 = require("../../libs/s3Client");
 const movie_1 = __importDefault(require("../models/movie"));
@@ -116,10 +116,87 @@ const remove = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.remove = remove;
-const update = () => { };
-exports.update = update;
-const search = (req, res) => { };
-exports.search = search;
+const updateInfo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { idMovie, name, description, idCategory } = req.body;
+        yield movie_1.default.findOneAndUpdate({ idMovie }, {
+            $set: {
+                name,
+                description,
+                idCategory,
+            },
+        });
+        const response = {
+            successful: true,
+            message: "updated",
+            data: null,
+        };
+        return res.status(200).json(response);
+    }
+    catch (error) {
+        const e = {
+            successful: false,
+            message: `Error: ${error}`,
+            data: null,
+        };
+        return res.status(400).json(e);
+    }
+});
+exports.updateInfo = updateInfo;
+const updatePoster = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const poster = req.file;
+        const { idMovie, filename } = req.body;
+        yield (0, s3Client_1.deleteFile)({
+            Bucket: config_1.default.bucket.name,
+            Key: filename,
+        });
+        const posterUrl = yield (0, s3Client_1.uploadFile)(poster);
+        yield movie_1.default.findOneAndUpdate({ idMovie }, {
+            $set: {
+                posterFilename: poster.filename,
+                posterUrl
+            }
+        });
+        const response = {
+            successful: true,
+            message: "poster updated",
+            data: null,
+        };
+        return res.status(200).json(response);
+    }
+    catch (error) {
+        const e = {
+            successful: false,
+            message: `Error: ${error}`,
+            data: null,
+        };
+        return res.status(400).json(e);
+    }
+});
+exports.updatePoster = updatePoster;
+const searchLikeName = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const keyword = req.params.keyword;
+        const result = yield movie_1.default.find({ name: { $regex: keyword } });
+        const response = {
+            successful: true,
+            message: `ok`,
+            data: result,
+        };
+        return res.status(200).json(response);
+    }
+    catch (error) {
+        const e = {
+            successful: false,
+            message: `Error: ${error}`,
+            data: null,
+        };
+        console.log(e);
+        return res.status(400).json(e);
+    }
+});
+exports.searchLikeName = searchLikeName;
 const listByCategory = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const idCategory = req.params.id;
@@ -171,7 +248,7 @@ const info = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             idCategory: existingMovie.idCategory,
         });
         const response = {
-            idMovie: existingMovie.idMovie,
+            idMovie: existingMovie._id,
             name: existingMovie.name,
             category: category === null || category === void 0 ? void 0 : category.name,
             description: existingMovie.description,
