@@ -44,17 +44,23 @@ export interface ActionChangePassModel extends ChangePasswordModel {
 }
 
 export interface ChangeNameModel {
-    newName: string
+  newName: string;
 }
 
 export interface ActionChangeNameModel extends ChangeNameModel {
-    token: string;
+  token: string;
 }
 
 export interface SetAvatarModel {
-    formData: any
+  formData: any;
 }
 
-export interface ActionSetAvatarModel extends SetAvatarModel{
-    token: string;
+export interface ActionSetAvatarModel extends SetAvatarModel {
+  token: string;
+}
+
+export interface AccountModel {
+  avatarUrl: string;
+  name: string;
+  email: string;
 }

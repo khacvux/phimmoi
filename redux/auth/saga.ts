@@ -1,11 +1,7 @@
 import { put, call, takeLatest } from "redux-saga/effects";
-import {
-  changeNameAsync,
-  changePasswordAsync,
-  loginAsync,
-  setAvatarAsync,
-  signupAsync,
-} from "./actions";
+import * as ACTIONS from "./actions";
+import * as CONSTANTS from "./constants";
+
 import {
   LoginModel,
   ResLoginModel,
@@ -15,19 +11,30 @@ import {
   ActionChangeNameModel,
   ActionSetAvatarModel,
 } from "./models";
-import * as AuthAPI from "../../apis/authApis";
+import * as LOADING from "../loading/actions";
+import * as SAVE from "../saveAccount/actions";
+import * as AuthAPI from "../../apis/authAPIs";
 
 function* login(action: any) {
   const payload: LoginModel = action.payload;
   try {
+    yield put(LOADING.startLoading());
     const response: ResponseGenerator = yield call(AuthAPI.login, payload);
     const data: ResLoginModel = response.data;
     if (data.successful) {
-      yield put(loginAsync.success(data));
-    } else yield put(loginAsync.failure(data));
+      yield put(ACTIONS.loginSuccess(data));
+      yield put(
+        SAVE.saveAccountOnDevice({
+          name: data.name,
+          email: data.email,
+          avatarUrl: data.avatarUrl,
+        })
+      );
+    } else yield put(ACTIONS.loginFailure(data));
   } catch (error) {
-    yield put(loginAsync.failure(error));
+    yield put(ACTIONS.loginFailure(error));
   }
+  yield put(LOADING.stopLoading());
 }
 
 function* signup(action: any) {
@@ -36,10 +43,10 @@ function* signup(action: any) {
     const response: ResponseGenerator = yield call(AuthAPI.signup, payload);
     const data: ResSignupModel = response.data;
     if (data.successful) {
-      yield put(signupAsync.success(data));
-    } else yield put(signupAsync.failure(data));
+      yield put(ACTIONS.signupSuccess(data));
+    } else yield put(ACTIONS.signupFailure(data));
   } catch (error) {
-    yield put(signupAsync.failure(error));
+    yield put(ACTIONS.signupFailure(error));
   }
 }
 
@@ -52,10 +59,10 @@ function* changePassword(action: any) {
     );
     const data: ResponseModel = response.data;
     if (data.successful) {
-      yield put(changePasswordAsync.success(data));
-    } else put(changePasswordAsync.failure(data));
+      yield put(ACTIONS.changePassSuccess(data));
+    } else put(ACTIONS.changePassFailure(data));
   } catch (error) {
-    yield put(changePasswordAsync.failure(error));
+    yield put(ACTIONS.changePassFailure(error));
   }
 }
 
@@ -65,10 +72,10 @@ function* changeName(action: any) {
     const response: ResponseGenerator = yield call(AuthAPI.changeName, payload);
     const data: ResponseModel = response.data;
     if (data.successful) {
-      yield put(changeNameAsync.success({ newName: payload.newName }));
-    } else yield put(changeNameAsync.failure(data));
+      yield put(ACTIONS.changeNameSuccess({ newName: payload.newName }));
+    } else yield put(ACTIONS.changeNameFailure(data));
   } catch (error) {
-    yield put(changeNameAsync.failure(error));
+    yield put(ACTIONS.changeNameFailure(error));
   }
 }
 
@@ -78,19 +85,19 @@ function* setAvatar(action: any) {
     const response: ResponseGenerator = yield call(AuthAPI.setAvatar, payload);
     const data: ResLoginModel = response.data;
     if (data.successful) {
-      yield put(setAvatarAsync.success(data));
-    } else yield put(setAvatarAsync.failure(data));
+      yield put(ACTIONS.setAvatarSuccess(data));
+    } else yield put(ACTIONS.setAvatarFailure(data));
   } catch (error) {
-    yield put(setAvatarAsync.failure(error));
+    yield put(ACTIONS.setAvatarFailure(error));
   }
 }
 
 const authSaga = [
-  takeLatest(loginAsync.request, login),
-  takeLatest(signupAsync.request, signup),
-  takeLatest(changePasswordAsync.request, changePassword),
-  takeLatest(changeNameAsync.request, changeName),
-  takeLatest(setAvatarAsync.request, setAvatar),
+  takeLatest(CONSTANTS.LOGIN, login),
+  takeLatest(CONSTANTS.SIGNUP, signup),
+  takeLatest(CONSTANTS.CHANGE_PASS, changePassword),
+  takeLatest(CONSTANTS.CHANGE_NAME, changeName),
+  takeLatest(CONSTANTS.SET_AVATAR, setAvatar),
 ];
 
 export default authSaga;

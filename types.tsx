@@ -18,6 +18,8 @@ export type RootStackParamList = {
   Login: undefined;
   Signup: undefined;
   PlayerMovie: undefined;
+  Account: undefined;
+  Library: undefined;
   Root: NavigatorScreenParams<RootTabParamList> | undefined;
   Modal: undefined;
   InfoMovie: undefined;

@@ -1,12 +1,24 @@
 import { combineReducers } from "redux";
 
-import auth from './auth/reducer'
-import movie from './movie/reducer'
-import library from './library/reducer'
+import auth, { InitStateModel as InitAuthStateModel } from './auth/reducer'
+import movie, { InitStateModel as InitMovieStateModel } from './movie/reducer'
+import library, { InitStateModel as InitLibraryStateModel } from './library/reducer'
+import loading, { InitStateModel as InitLoadingStateModel } from './loading/reducer'
+import save, { InitStateModel as InitSaveAccountStateModel } from './saveAccount/reducer'
 
 
-export default combineReducers({
+export interface RootReducerModel {
+    auth: InitAuthStateModel;
+    movie: InitMovieStateModel;
+    library: InitLibraryStateModel;
+    loading: InitLoadingStateModel;
+    save: InitSaveAccountStateModel;
+  }
+
+export default combineReducers<RootReducerModel>({
     auth,
     movie,
     library,
+    loading,
+    save
 })
