@@ -41,7 +41,7 @@ export const changePassword = async (data: ActionChangePassModel) => {
 
 export const changeName = async (data: ActionChangeNameModel) => {
   try {
-    return await AXIOS.put(`user/name/change/${data.newName}`, {
+    return await AXIOS.get(`user/name/change/${data.newName}`, {
       headers: {
         "Authorization": `Bearer ${data.token}`,
       },

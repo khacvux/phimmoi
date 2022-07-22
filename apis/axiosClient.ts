@@ -1,8 +1,8 @@
 import axios from "axios";
-import config from "../config";
+
 
 const AXIOS = axios.create({
-  baseURL: config.baseUrl,
+  baseURL: "https://phimmoi-rest-api.herokuapp.com/",
   timeout: 120000,
   headers: {
     "Content-Type": "application/json",

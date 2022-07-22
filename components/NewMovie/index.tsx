@@ -5,16 +5,16 @@ import { MonoText } from "../StyledText";
 import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
 
-const NewMovie = ({navigation}) => {
+const NewMovie = ({navigation, item}) => {
     const { width: SCREEN_WIDTH } = Dimensions.get("window");
     return (
         <View style={tw`my-3`}>
             <TouchableOpacity activeOpacity={0.9}
-            onPress={() => navigation.navigate('InfoMovie')}>
+            onPress={() => navigation.navigate('InfoMovie', {
+                info: item.item
+            })}>
                 <ImageBackground
-                    source={{
-                        uri: "https://img.vietwiki.net/uploads/2016/08/song-o-day-song-2.jpg"
-                    }}
+                    source={item.item?.posterUrl ? {uri: item.item?.posterUrl} : require('../../assets/images/netflix-avatar2.png')}
                     style={[{ width: SCREEN_WIDTH, height: SCREEN_WIDTH * 0.55 }, tw`justify-end`]}
                 >
                     <LinearGradient
@@ -35,17 +35,9 @@ const NewMovie = ({navigation}) => {
             </TouchableOpacity>
 
             <View style={tw`px-4 my-1`}>
-                <MonoText style={tw`text-lg `}>Song o day song</MonoText>
+                <MonoText style={tw`text-lg `}>{item.item?.name}</MonoText>
                 <MonoText style={tw`text-gray-500`} numberOfLines={4}>
-                    It is a long established fact that a reader will be distracted by the
-                    readable content of a page when looking at its layout. The point of
-                    using Lorem Ipsum is that it has a more-or-less normal distribution of
-                    letters, as opposed to using 'Content here, content here', making it
-                    look like readable English. Many desktop publishing packages and web
-                    page editors now use Lorem Ipsum as their default model text, and a
-                    search for 'lorem ipsum' will uncover many web sites still in their
-                    infancy. Various versions have evolved over the years, sometimes by
-                    accident, sometimes on purpose
+                    {item.item?.description}
                 </MonoText>
             </View>
         </View>

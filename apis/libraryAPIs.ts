@@ -15,11 +15,12 @@ export const getLibrary = async (token: string) => {
 
 export const saveToLibrary = async (data: ActionLibraryModel) => {
   try {
-    return await AXIOS.put(`user/library/save/${data._id}`, {
+    const res = await AXIOS.get(`user/library/save/${data._id}`, {
       headers: {
         "Authorization": `Bearer ${data.token}`,
       },
     });
+    return res
   } catch (error) {
     return error;
   }
@@ -27,7 +28,7 @@ export const saveToLibrary = async (data: ActionLibraryModel) => {
 
 export const unsaveToLibrary = async (data: ActionLibraryModel) => {
   try {
-    return await AXIOS.put(`user/library/unsave/${data._id}`, {
+    return await AXIOS.get(`user/library/unsave/${data._id}`, {
       headers: {
         "Authorization": `Bearer ${data.token}`,
       },

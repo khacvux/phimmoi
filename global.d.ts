@@ -13,6 +13,12 @@ declare interface ResponseModel {
     data: any,
 }
 
+declare interface ActionModel {
+    type: string,
+    payload: any,
+}
+
 declare interface ActionFailModel {
     message: any;
 }
+

@@ -1,6 +1,10 @@
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { NavigationContainer, DefaultTheme, DarkTheme } from "@react-navigation/native";
+import {
+  NavigationContainer,
+  DefaultTheme,
+  DarkTheme,
+} from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as React from "react";
 import { ColorSchemeName, Pressable } from "react-native";
@@ -16,171 +20,179 @@ import HomeScreen from "../screens/HomeScreen";
 import NewMovieScreen from "../screens/NewMovieScreen";
 import ModalScreen from "../screens/ModalScreen";
 import NotFoundScreen from "../screens/NotFoundScreen";
-import TabOneScreen from "../screens/TabOneScreen";
-import TabTwoScreen from "../screens/TabTwoScreen";
-import { RootStackParamList, RootTabParamList, RootTabScreenProps } from "../types";
+import {
+  RootStackParamList,
+  RootTabParamList,
+  RootTabScreenProps,
+} from "../types";
 import LinkingConfiguration from "./LinkingConfiguration";
 import SearchScreen from "../screens/SearchScreen";
 import MenuScreen from "../screens/MenuScreen";
 import PlayerMovieScreen from "../screens/PlayerMovieScreen";
+import { RootReducerModel } from "../redux/rootReducer";
+import AccountScreen from "../screens/AccountScreen";
+import LibraryScreen from "../screens/LibraryScreen";
 
-export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
-    return (
-        <NavigationContainer
-            linking={LinkingConfiguration}
-            theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
-        >
-            <RootNavigator />
-        </NavigationContainer>
-    );
+export default function Navigation({
+  colorScheme,
+}: {
+  colorScheme: ColorSchemeName;
+}) {
+  return (
+    <NavigationContainer
+      linking={LinkingConfiguration}
+      theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+    >
+      <RootNavigator />
+    </NavigationContainer>
+  );
 }
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
-    const { user } = useSelector((state) => state.auth);
+  const token = useSelector((state: RootReducerModel) => state.auth.token);
+  return (
+    <Stack.Navigator>
+      {!token ? (
+        <>
+          <Stack.Screen
+            name="PickAnAccount"
+            component={PickAnAccountScreen}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="Signup"
+            component={SignupScreen}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Group screenOptions={{ presentation: "modal" }}>
+            <Stack.Screen
+              name="Login"
+              component={SigninModal}
+              options={{
+                title: "Sign in",
+              }}
+            />
+          </Stack.Group>
 
-    return (
-        <Stack.Navigator>
-            {Object.keys(user).length == 0 ? (
-                <>
-                    <Stack.Screen
-                        name="PickAnAccount"
-                        component={PickAnAccountScreen}
-                        options={{
-                            headerShown: false
-                        }}
-                    />
-                    <Stack.Screen
-                        name="Signup"
-                        component={SignupScreen}
-                        options={{
-                            headerShown: false
-                        }}
-                    />
-                    <Stack.Group screenOptions={{ presentation: "modal" }}>
-                        <Stack.Screen
-                            name="Login"
-                            component={SigninModal}
-                            options={{
-                                title: "Sign in"
-                            }}
-                        />
-                    </Stack.Group>
-                    <Stack.Group screenOptions={{ presentation: "containedModal" }}>
-                        <Stack.Screen
-                            name="InfoMovie"
-                            component={InfoMovieModal}
-                            options={{
-                                headerShown: false
-                            }}
-                        />
-                    </Stack.Group>
-
-                    {/* --------------TEST------------------------------- */}
-                    <Stack.Screen
-                        name="Root"
-                        component={BottomTabNavigator}
-                        options={{ headerShown: false }}
-                    />
-                    <Stack.Screen
-                        name="PlayerMovie"
-                        component={PlayerMovieScreen}
-                        options={{ headerShown: false }}
-                    />
-
-                    <Stack.Screen
-                        name="NotFound"
-                        component={NotFoundScreen}
-                        options={{ title: "Oops!" }}
-                    />
-                    <Stack.Group screenOptions={{ presentation: "modal" }}>
-                        <Stack.Screen name="Modal" component={ModalScreen} />
-                    </Stack.Group>
-                </>
-            ) : (
-                <>
-                    <Stack.Screen
-                        name="Root"
-                        component={BottomTabNavigator}
-                        options={{ headerShown: false }}
-                    />
-                    <Stack.Screen
-                        name="NotFound"
-                        component={NotFoundScreen}
-                        options={{ title: "Oops!" }}
-                    />
-                    <Stack.Group screenOptions={{ presentation: "modal" }}>
-                        <Stack.Screen name="Modal" component={ModalScreen} />
-                    </Stack.Group>
-                </>
-            )}
-        </Stack.Navigator>
-    );
+          <Stack.Screen
+            name="NotFound"
+            component={NotFoundScreen}
+            options={{ title: "Oops!" }}
+          />
+          <Stack.Group screenOptions={{ presentation: "modal" }}>
+            <Stack.Screen name="Modal" component={ModalScreen} />
+          </Stack.Group>
+        </>
+      ) : (
+        <>
+          <Stack.Screen
+            name="Root"
+            component={BottomTabNavigator}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="PlayerMovie"
+            component={PlayerMovieScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Library"
+            component={LibraryScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Account"
+            component={AccountScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Group screenOptions={{ presentation: "containedModal" }}>
+            <Stack.Screen
+              name="InfoMovie"
+              component={InfoMovieModal}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="NotFound"
+              component={NotFoundScreen}
+              options={{ title: "Oops!" }}
+            />
+          </Stack.Group>
+        </>
+      )}
+    </Stack.Navigator>
+  );
 }
 
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
 function BottomTabNavigator() {
-    const colorScheme = useColorScheme();
+  const colorScheme = useColorScheme();
 
-    return (
-        <BottomTab.Navigator
-            initialRouteName="TabOne"
-            screenOptions={{
-                tabBarActiveTintColor: Colors[colorScheme].tint
-            }}
-        >
-            <BottomTab.Screen
-                name="HomeTab"
-                component={HomeScreen}
-                options={{
-                    title: "Home",
-                    tabBarIcon: ({ color }) => (
-                        <TabBarIcon name="home" size={25} color={color} />
-                    ),
-                    headerShown: false
-                }}
+  return (
+    <BottomTab.Navigator
+      initialRouteName="TabOne"
+      screenOptions={{
+        tabBarActiveTintColor: Colors[colorScheme].tint,
+      }}
+    >
+      <BottomTab.Screen
+        name="HomeTab"
+        component={HomeScreen}
+        options={{
+          title: "Home",
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="home" size={25} color={color} />
+          ),
+          headerShown: false,
+        }}
+      />
+      <BottomTab.Screen
+        name="NewMovieTab"
+        component={NewMovieScreen}
+        options={{
+          title: "New Movies",
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="film" size={21} color={color} />
+          ),
+          headerShown: false,
+        }}
+      />
+      <BottomTab.Screen
+        name="SearchTab"
+        component={SearchScreen}
+        options={{
+          title: "Search",
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="search" size={21} color={color} />
+          ),
+          headerShown: false,
+        }}
+      />
+      <BottomTab.Screen
+        name="MenuTab"
+        component={MenuScreen}
+        options={{
+          title: "Profile",
+          tabBarIcon: ({ color }) => (
+            <Ionicons
+              name="menu"
+              size={28}
+              color={color}
+              style={{ marginBottom: -3 }}
             />
-            <BottomTab.Screen
-                name="NewMovieTab"
-                component={NewMovieScreen}
-                options={{
-                    title: "New Movies",
-                    tabBarIcon: ({ color }) => (
-                        <TabBarIcon name="film" size={21} color={color} />
-                    ),
-                    headerShown: false
-                }}
-            />
-            <BottomTab.Screen
-                name="SearchTab"
-                component={SearchScreen}
-                options={{
-                    title: "Search",
-                    tabBarIcon: ({ color }) => (
-                        <TabBarIcon name="search" size={21} color={color} />
-                    ),
-                    headerShown: false
-                }}
-            />
-            <BottomTab.Screen
-                name="MenuTab"
-                component={MenuScreen}
-                options={{
-                    title: "Profile",
-                    tabBarIcon: ({ color }) => (
-                        <Ionicons
-                            name="menu"
-                            size={28}
-                            color={color}
-                            style={{ marginBottom: -3 }}
-                        />
-                    ),
-                    headerShown: false
-                }}
-            />
-            {/* <BottomTab.Screen
+          ),
+          headerShown: false,
+        }}
+      />
+      {/* <BottomTab.Screen
                 name="TabOne"
                 component={TabOneScreen}
                 options={({ navigation }: RootTabScreenProps<"TabOne">) => ({
@@ -203,7 +215,7 @@ function BottomTabNavigator() {
                     )
                 })}
             /> */}
-            {/* <BottomTab.Screen
+      {/* <BottomTab.Screen
                 name="TabTwo"
                 component={TabTwoScreen}
                 options={{
@@ -211,14 +223,14 @@ function BottomTabNavigator() {
                     tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />
                 }}
             /> */}
-        </BottomTab.Navigator>
-    );
+    </BottomTab.Navigator>
+  );
 }
 
 function TabBarIcon(props: {
-    name: React.ComponentProps<typeof FontAwesome>["name"];
-    color: string;
-    size: number;
+  name: React.ComponentProps<typeof FontAwesome>["name"];
+  color: string;
+  size: number;
 }) {
-    return <FontAwesome style={{ marginBottom: -3 }} {...props} />;
+  return <FontAwesome style={{ marginBottom: -3 }} {...props} />;
 }

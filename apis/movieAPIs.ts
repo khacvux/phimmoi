@@ -1,11 +1,15 @@
-import { ActionGetInfMovieModel, ActionGetListMovieByCategoryModel, ActionSearchMovieLikeName } from "../redux/movie/models";
+import {
+  ActionGetInfMovieModel,
+  ActionGetListMovieByCategoryModel,
+  ActionSearchMovieLikeName,
+} from "../redux/movie/models";
 import AXIOS from "./axiosClient";
 
 export const getListCategory = async (token: string) => {
   try {
     return await AXIOS.get(`category/list`, {
       headers: {
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     });
   } catch (error) {
@@ -13,11 +17,13 @@ export const getListCategory = async (token: string) => {
   }
 };
 
-export const getListMovieByCategory = async (data: ActionGetListMovieByCategoryModel) => {
+export const getListMovieByCategory = async (
+  data: ActionGetListMovieByCategoryModel
+) => {
   try {
     return await AXIOS.get(`movie/category/${data.idCategory}`, {
       headers: {
-        "Authorization": `Bearer ${data.token}`,
+        Authorization: `Bearer ${data.token}`,
       },
     });
   } catch (error) {
@@ -29,7 +35,7 @@ export const getInfoMovie = async (data: ActionGetInfMovieModel) => {
   try {
     return await AXIOS.get(`movie/info/${data.idMovie}`, {
       headers: {
-        "Authorization": `Bearer ${data.token}`,
+        Authorization: `Bearer ${data.token}`,
       },
     });
   } catch (error) {
@@ -41,10 +47,48 @@ export const searchMovieLikeName = async (data: ActionSearchMovieLikeName) => {
   try {
     return AXIOS.get(`movie/search/${data.keyword}`, {
       headers: {
-        "Authorization": `Bearer ${data.token}`,
+        Authorization: `Bearer ${data.token}`,
       },
     });
   } catch (error) {
     return error;
   }
 };
+
+export const getNewestMovie = async (token: string) => {
+  try {
+    return AXIOS.get(`movie/newest`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  } catch (error) {
+    return error;
+  }
+};
+
+
+export const getListNewestMovie = async (token: string) => {
+  try {
+    return AXIOS.get(`movie/newest/list`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  } catch (error) {
+    return error;
+  }
+};
+
+export const getListMovie = async (token: string) => {
+  try {
+    return AXIOS.get(`movie/list`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  } catch (error) {
+    return error;
+  }
+};
+
