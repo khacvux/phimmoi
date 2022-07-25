@@ -48,7 +48,7 @@ const reducer = (state: InitStateModel = initState, action: ActionModel) => {
     case CONSTANT.SIGNUP_SUCCESS:
       return {
         ...state,
-        message: action.payload?.message,
+        message: "Sign up success!",
       };
     case CONSTANT.SIGNUP_FAILURE:
       console.log(action.payload);

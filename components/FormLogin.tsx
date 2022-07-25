@@ -80,7 +80,11 @@ const FormLogin = ({ navigation, infoUser }) => {
         <TouchableOpacity
           style={tw`my-3 mx-2`}
           activeOpacity={0.7}
-          onPress={() => navigation.navigate("Signup")}
+          onPress={(): void => {
+            navigation.goBack()
+            navigation.navigate("Signup")
+
+          }}
         >
           <MonoText>Sign up?</MonoText>
         </TouchableOpacity>
