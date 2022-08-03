@@ -8,14 +8,14 @@ import { Ionicons } from "@expo/vector-icons";
 const NewMovie = ({navigation, item}) => {
     const { width: SCREEN_WIDTH } = Dimensions.get("window");
     return (
-        <View style={tw`my-3`}>
+        <View style={tw`my-3`} >
             <TouchableOpacity activeOpacity={0.9}
             onPress={() => navigation.navigate('InfoMovie', {
                 info: item.item
             })}>
                 <ImageBackground
                     source={item.item?.posterUrl ? {uri: item.item?.posterUrl} : require('../../assets/images/netflix-avatar2.png')}
-                    style={[{ width: SCREEN_WIDTH, height: SCREEN_WIDTH * 0.55 }, tw`justify-end`]}
+                    style={[{ width: SCREEN_WIDTH, height: SCREEN_WIDTH * 0.55 }, tw`justify-end bg-[#441B07]`]}
                 >
                     <LinearGradient
                         colors={["rgba(0, 0, 0, 0.00003)", "rgba(0, 0, 0, 1)"]}
@@ -27,9 +27,7 @@ const NewMovie = ({navigation, item}) => {
                                 color={"#fff"}
                                 size={26}
                             />
-
                         </DefaultView>
-
                     </LinearGradient>
                 </ImageBackground>
             </TouchableOpacity>

@@ -14,7 +14,7 @@ const NormalListItem = ({navigation, item}) => {
                 resizeMode="cover"
                 style={[
                     { width: SCREEN_WIDTH / 3.4, height: SCREEN_WIDTH * 0.45 },
-                    tw`rounded-sm overflow-hidden justify-end mr-1`
+                    tw`rounded-sm overflow-hidden justify-end mr-1 bg-[#441B07]`
                 ]}
             >
                 <LinearGradient

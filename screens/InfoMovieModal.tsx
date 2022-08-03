@@ -118,7 +118,9 @@ const InfoMovieModal = ({ navigation, route }) => {
               activeOpacity={0.7}
               onPress={() => {
                 navigation.goBack();
-                setTimeout(() => navigation.navigate("PlayerMovie"), 500);
+                setTimeout(() => navigation.navigate("PlayerMovie", {
+                  info: info
+                }), 500);
               }}
             >
               <Ionicons name="play" />

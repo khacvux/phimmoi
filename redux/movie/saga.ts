@@ -110,7 +110,6 @@ function* getNewest(action: any) {
     const data: ResponseModel = response.data;
     if (data.successful) {
       const payload: MovieModel = data.data;
-      console.log(payload);
       yield put(ACTIONS.getNewestMovieSuccess(payload));
     } else yield put(ACTIONS.getNewestMovieFailure(data));
   } catch (error) {

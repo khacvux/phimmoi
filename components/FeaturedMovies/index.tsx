@@ -58,7 +58,7 @@ const FeaturedMovies = (props: props) => {
       }
       style={[
         { width: SCREEN_WIDTH, height: SCREEN_WIDTH * 1.5 },
-        tw`justify-end bg-[#eee]`,
+        tw`justify-end bg-[#441B07] `,
       ]}
       resizeMode="cover"
     >

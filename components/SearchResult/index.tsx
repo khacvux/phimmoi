@@ -23,7 +23,7 @@ const SearchResult = ({ navigation, item }) => {
         }
         style={[
           { width: SCREEN_WIDTH / 3.3, height: SCREEN_WIDTH / 5.5 },
-          tw`rounded`,
+          tw`rounded bg-[#442414]`,
         ]}
       />
 

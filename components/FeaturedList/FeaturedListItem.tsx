@@ -22,7 +22,7 @@ const FeaturedListItem = ({ navigation, item }) => {
         resizeMode="cover"
         style={[
           { width: SCREEN_WIDTH / 2.4, height: SCREEN_WIDTH * 0.7 },
-          tw`rounded-sm overflow-hidden justify-end mr-2`,
+          tw`rounded-sm overflow-hidden justify-end mr-2 bg-[#441B07]`,
         ]}
       >
         <LinearGradient
